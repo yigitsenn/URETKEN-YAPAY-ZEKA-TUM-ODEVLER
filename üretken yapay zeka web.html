@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Nefes | Veri Geri Dönüşüm Platformu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ana-renk: #2e7d32;
+            --ikincil-renk: #1b5e20;
+            --acik-renk: #f4f9f4;
+            --mavi: #0288d1;
+            --bg: #ffffff;
+            --text: #333333;
+            --card-bg: #ffffff;
+            --hero-bg: linear-gradient(135deg, #f1f8e9 0%, #e1f5fe 100%);
+        }
+
+        /* Karanlık Mod Değişkenleri */
+        body.dark-mode {
+            --bg: #121212;
+            --text: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --acik-renk: #1b2e1b;
+            --hero-bg: linear-gradient(135deg, #1b2e1b 0%, #0d1b2a 100%);
+        }
+
+        body { font-family: 'Poppins', sans-serif; color: var(--text); background-color: var(--bg); line-height: 1.6; transition: 0.3s ease; }
+        
+        /* Navigasyon */
+        .navbar { background: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 15px 0; transition: 0.3s; }
+        .navbar-brand { font-weight: 700; color: var(--ana-renk) !important; font-size: 1.5rem; }
+        .nav-link { color: var(--text) !important; }
+
+        /* Hero Alanı */
+        .hero { 
+            background: var(--hero-bg); 
+            padding: 180px 0 100px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+        .hero span { color: var(--ana-renk); }
+
+        /* Kartlar */
+        .section-padding { padding: 80px 0; }
+        .card-custom {
+            border: none;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            background: var(--card-bg);
+            color: var(--text);
+            height: 100%;
+        }
+        .card-custom:hover { transform: translateY(-10px); }
+        .section-bg { background-color: var(--acik-renk); }
+        
+        .icon-circle {
+            width: 70px; height: 70px;
+            background: var(--ana-renk);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: white;
+            margin-bottom: 20px;
+        }
+
+        /* İstatistik Paneli */
+        .stat-panel {
+            background: var(--ana-renk);
+            color: white;
+            border-radius: 30px;
+            padding: 50px;
+            margin-top: -50px;
+        }
+
+        .btn-main {
+            background: var(--ana-renk);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            border: none;
+        }
+        .btn-main:hover { background: var(--ikincil-renk); color: white; }
+
+        footer { background: #1a252b; color: white; padding: 40px 0; text-align: center; }
+
+        /* Kontrol Butonları (Sabit) */
+        .floating-controls {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ctrl-btn {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--ana-renk);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-controls">
+        <button class="ctrl-btn" onclick="toggleDark()" title="Mod Değiştir">🌙</button>
+        <button class="ctrl-btn" onclick="toggleLang()" title="Dil Değiştir">🌐</button>
+    </div>
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" id="txt-logo">🍃 DİJİTAL NEFES</a>
+            <div class="ms-auto">
+                <a href="#sorun" class="nav-link d-inline mx-2" id="txt-nav1">Sorun</a>
+                <a href="#cozum" class="nav-link d-inline mx-2" id="txt-nav2">Çözüm</a>
+                <a href="#teknoloji" class="nav-link d-inline mx-2" id="txt-nav3">Teknoloji</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1 id="txt-hero-h1">Geleceğe Veri Değil,<br><span>Nefes</span> Bırakın.</h1>
+            <p class="lead mb-5" id="txt-hero-p">Dijital atıklarınızı karbon kredisine ve fidanlara dönüştüren<br>gelecek nesil veri yönetim platformu.</p>
+            <a href="#sorun" class="btn-main" id="txt-hero-btn">Hemen Keşfet</a>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="stat-panel text-center">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3 id="txt-stat1-h">%80</h3>
+                    <p class="mb-0" id="txt-stat1-p">Karanlık Veri Oranı</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 id="txt-stat2-h">20 Milyon Ton</h3>
+                    <p class="mb-0" id="txt-stat2-p">Yıllık Karbon Potansiyeli</p>
+                </div>
+                <div class="col-md-4">
+                    <h3 id="txt-stat3-h">100GB = 1 Fidan</h3>
+                    <p class="mb-0" id="txt-stat3-p">Dönüşüm Oranımız</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sorun" class="section-padding">
+        <div class="container text-center">
+            <h2 class="mb-5 fw-bold" id="txt-prob-h">Görünmeyen Kirlilikle Tanışın</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card-custom text-start">
+                        <h4 class="fw-bold" id="txt-card1-h">Karanlık Veri Nedir?</h4>
+                        <p id="txt-card1-p">Dijital dünyada oluşturulan ama bir daha asla kullanılmayan verilerdir. Unutulan yedekler, gereksiz e-postalar ve benzer fotoğraflar her saniye enerji tüketmeye devam eder.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-custom text-start">
+                        <h4 class="fw-bold" id="txt-card2-h">Ekolojik Maliyet</h4>
+                        <p id="txt-card2-p">Veri merkezleri bugün havacılık sektörü kadar karbon salınımı yapıyor. Dijital Nefes, bu "dijital dumanı" temizlemek için tasarlandı.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cozum" class="section-padding section-bg">
+        <div class="container text-center">
+            <h2 class="mb-5 fw-bold" id="txt-sol-h">Nasıl Çalışıyoruz?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <div class="icon-circle mx-auto">1</div>
+                        <h5 id="txt-step1-h">Yapay Zeka Analizi</h5>
+                        <p class="small opacity-75" id="txt-step1-p">Dosyalarınızı tarar ve gereksiz olanları akıllıca sınıflandırır.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <div class="icon-circle mx-auto">2</div>
+                        <h5 id="txt-step2-h">Güvenli Temizlik</h5>
+                        <p class="small opacity-75" id="txt-step2-p">Sizin onayınızla gereksiz verileri siler, depolama maliyetinizi düşürür.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-custom">
+                        <div class="icon-circle mx-auto">3</div>
+                        <h5 id="txt-step3-h">Yeşil Ödül</h5>
+                        <p class="small opacity-75" id="txt-step3-p">Tasarruf edilen enerji, doğaya fidan ve karbon kredisi olarak döner.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="teknoloji" class="section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-start">
+                    <h2 class="fw-bold" id="txt-tech-h">Teknolojimizin Temeli</h2>
+                    <p id="txt-tech-p">Platformumuz, en gelişmiş veri işleme tekniklerini etik değerlerle birleştirir.</p>
+                    <ul class="list-unstyled">
+                        <li id="li1">✅ <strong>NLP Algoritmaları:</strong> Metin karmaşasını çözer.</li>
+                        <li id="li2">✅ <strong>Blockchain:</strong> Karbon kredisi takibinde %100 şeffaflık.</li>
+                        <li id="li3">✅ <strong>Uçtan Uca Şifreleme:</strong> Veriniz analiz edilirken asla okunmaz.</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-5 text-white rounded-5 shadow-lg" style="background: var(--mavi);">
+                        <h4 id="txt-acad-h">Akademik Kontrol</h4>
+                        <p class="mb-0" id="txt-acad-p">Tüm süreçlerimiz akademik dürüstlük ve YZ tespit araçlarına (ZeroGPT vb.) uyumlu, insan odaklı bir yapıyla kurgulanmıştır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p class="fw-bold mb-0" id="txt-footer1">© 2026 Dijital Nefes Projesi - Sunum İçin Hazırlanmıştır.</p>
+            <p class="small opacity-75" id="txt-footer2">Doğayı korumak dijitalden başlar.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Karanlık Mod
+        function toggleDark() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.ctrl-btn');
+            btn.innerText = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        }
+
+        // Dil Değiştirme
+        let currentLang = 'tr';
+        const translations = {
+            tr: {
+                logo: "🍃 DİJİTAL NEFES",
+                nav1: "Sorun", nav2: "Çözüm", nav3: "Teknoloji",
+                heroH1: "Geleceğe Veri Değil,<br><span>Nefes</span> Bırakın.",
+                heroP: "Dijital atıklarınızı karbon kredisine ve fidanlara dönüştüren<br>gelecek nesil veri yönetim platformu.",
+                heroBtn: "Hemen Keşfet",
+                s1h: "%80", s1p: "Karanlık Veri Oranı",
+                s2h: "20 Milyon Ton", s2p: "Yıllık Karbon Potansiyeli",
+                s3h: "100GB = 1 Fidan", s3p: "Dönüşüm Oranımız",
+                probH: "Görünmeyen Kirlilikle Tanışın",
+                c1h: "Karanlık Veri Nedir?", c1p: "Dijital dünyada oluşturulan ama bir daha asla kullanılmayan verilerdir.",
+                c2h: "Ekolojik Maliyet", c2p: "Veri merkezleri bugün havacılık sektörü kadar karbon salınımı yapıyor.",
+                solH: "Nasıl Çalışıyoruz?",
+                st1h: "Yapay Zeka Analizi", st1p: "Dosyalarınızı tarar ve gereksiz olanları akıllıca sınıflandırır.",
+                st2h: "Güvenli Temizlik", st2p: "Sizin onayınızla gereksiz verileri siler, depolama maliyetinizi düşürür.",
+                st3h: "Yeşil Ödül", st3p: "Tasarruf edilen enerji, doğaya fidan ve karbon kredisi olarak döner.",
+                techH: "Teknolojimizin Temeli", techP: "Platformumuz, en gelişmiş veri işleme tekniklerini etik değerlerle birleştirir.",
+                li1: "✅ <strong>NLP Algoritmaları:</strong> Metin karmaşasını çözer.",
+                li2: "✅ <strong>Blockchain:</strong> Karbon kredisi takibinde %100 şeffaflık.",
+                li3: "✅ <strong>Uçtan Uca Şifreleme:</strong> Veriniz analiz edilirken asla okunmaz.",
+                acadH: "Akademik Kontrol", acadP: "Tüm süreçlerimiz akademik dürüstlük ve YZ tespit araçlarına uyumlu kurgulanmıştır.",
+                f1: "© 2026 Dijital Nefes Projesi - Sunum İçin Hazırlanmıştır.", f2: "Doğayı korumak dijitalden başlar."
+            },
+            en: {
+                logo: "🍃 DIGITAL BREATH",
+                nav1: "Problem", nav2: "Solution", nav3: "Technology",
+                heroH1: "Leave a <span>Breath</span>,<br>Not Data for the Future.",
+                heroP: "The next generation data management platform converting<br>digital waste into carbon credits and trees.",
+                heroBtn: "Explore Now",
+                s1h: "80%", s1p: "Dark Data Rate",
+                s2h: "20 Million Tons", s2p: "Annual Carbon Potential",
+                s3h: "100GB = 1 Tree", s3p: "Conversion Rate",
+                probH: "Meet the Invisible Pollution",
+                c1h: "What is Dark Data?", c1p: "Data created in the digital world but never used again, consuming energy every second.",
+                c2h: "Ecological Cost", c2p: "Data centers emit as much carbon as the aviation industry today.",
+                solH: "How It Works?",
+                st1h: "AI Analysis", st1p: "Scans your files and smartly categorizes redundant ones.",
+                st2h: "Secure Cleaning", st2p: "Deletes redundant data with your approval, lowering storage costs.",
+                st3h: "Green Reward", st3p: "Saved energy returns to nature as saplings and carbon credits.",
+                techH: "Foundation of Our Tech", techP: "Our platform combines advanced data processing with ethical values.",
+                li1: "✅ <strong>NLP Algorithms:</strong> Resolves text complexity.",
+                li2: "✅ <strong>Blockchain:</strong> 100% transparency in carbon credit tracking.",
+                li3: "✅ <strong>End-to-End Encryption:</strong> Your data is never read during analysis.",
+                acadH: "Academic Control", acadP: "All processes are designed in compliance with academic integrity and AI detection tools.",
+                f1: "© 2026 Digital Breath Project - Prepared for Presentation.", f2: "Protecting nature starts from digital."
+            }
+        };
+
+        function toggleLang() {
+            currentLang = currentLang === 'tr' ? 'en' : 'tr';
+            const t = translations[currentLang];
+            
+            document.getElementById('txt-logo').innerText = t.logo;
+            document.getElementById('txt-nav1').innerText = t.nav1;
+            document.getElementById('txt-nav2').innerText = t.nav2;
+            document.getElementById('txt-nav3').innerText = t.nav3;
+            document.getElementById('txt-hero-h1').innerHTML = t.heroH1;
+            document.getElementById('txt-hero-p').innerHTML = t.heroP;
+            document.getElementById('txt-hero-btn').innerText = t.heroBtn;
+            document.getElementById('txt-stat1-h').innerText = t.s1h;
+            document.getElementById('txt-stat1-p').innerText = t.s1p;
+            document.getElementById('txt-stat2-h').innerText = t.s2h;
+            document.getElementById('txt-stat2-p').innerText = t.s2p;
+            document.getElementById('txt-stat3-h').innerText = t.s3h;
+            document.getElementById('txt-stat3-p').innerText = t.s3p;
+            document.getElementById('txt-prob-h').innerText = t.probH;
+            document.getElementById('txt-card1-h').innerText = t.c1h;
+            document.getElementById('txt-card1-p').innerText = t.c1p;
+            document.getElementById('txt-card2-h').innerText = t.c2h;
+            document.getElementById('txt-card2-p').innerText = t.c2p;
+            document.getElementById('txt-sol-h').innerText = t.solH;
+            document.getElementById('txt-step1-h').innerText = t.st1h;
+            document.getElementById('txt-step1-p').innerText = t.st1p;
+            document.getElementById('txt-step2-h').innerText = t.st2h;
+            document.getElementById('txt-step2-p').innerText = t.st2p;
+            document.getElementById('txt-step3-h').innerText = t.st3h;
+            document.getElementById('txt-step3-p').innerText = t.st3p;
+            document.getElementById('txt-tech-h').innerText = t.techH;
+            document.getElementById('txt-tech-p').innerText = t.techP;
+            document.getElementById('li1').innerHTML = t.li1;
+            document.getElementById('li2').innerHTML = t.li2;
+            document.getElementById('li3').innerHTML = t.li3;
+            document.getElementById('txt-acad-h').innerText = t.acadH;
+            document.getElementById('txt-acad-p').innerText = t.acadP;
+            document.getElementById('txt-footer1').innerText = t.f1;
+            document.getElementById('txt-footer2').innerText = t.f2;
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
